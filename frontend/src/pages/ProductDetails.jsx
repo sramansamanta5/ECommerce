@@ -1,19 +1,31 @@
 import React from 'react'
-import products from '../products.js'
+import { useState,useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Ratings from '../components/Ratings.jsx';
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 
 const ProductDetails = () => {
 
-    const {id:productID}=useParams();
-    const product= products.find((p)=>p._id===productID)
+
+   const {id:productID}=useParams()
+   const navigate=useNavigate()
+    const [product,setProduct]=useState([])
+
+    useEffect(()=>{
+      const fetchProduct=async()=>{
+       const {data}= await axios.get(`http://localhost:4000/api/products/${productID}`)
+       setProduct(data)
+      }
+      fetchProduct()
+    },[productID])
     
   return (
     <div>
-    <button className='m-3 p-3 rounded-full bg-black'><IoMdArrowRoundBack size={35} fill='#00df9a'/></button>
-
+    <button className='m-3 p-3 rounded-full bg-black' onClick={()=>navigate(-1)}><IoMdArrowRoundBack size={35} fill='#00df9a'/></button>
+     {console.log(product)}
     <img src={product.image} className='m-5 w-80 h-80 object-cover'/>
     <h1 className='font-bold text-2xl m-2'>{product.name}</h1>
     <div className=' border-black border-t-2 border-b-2 m-2 p-4 '><Ratings rating={product.rating} ratingtext={product.numReviews}/></div>
