@@ -1,10 +1,9 @@
 import React from 'react'
-import { useState,useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Ratings from '../components/Ratings.jsx';
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useGetProductDetailsQuery } from '../slices/productApiSlice.js';
 
 
 const ProductDetails = () => {
@@ -12,17 +11,12 @@ const ProductDetails = () => {
 
    const {id:productID}=useParams()
    const navigate=useNavigate()
-    const [product,setProduct]=useState([])
-
-    useEffect(()=>{
-      const fetchProduct=async()=>{
-       const {data}= await axios.get(`http://localhost:4000/api/products/${productID}`)
-       setProduct(data)
-      }
-      fetchProduct()
-    },[productID])
+    
+   const{data:product,isLoading,isError}=useGetProductDetailsQuery(productID)
     
   return (
+    <>
+    {isLoading? ( <h1>Loading....</h1>):isError?(<div>{isError.data?.message || isError.error}</div>):(
     <div>
     <button className='m-3 p-3 rounded-full bg-black' onClick={()=>navigate(-1)}><IoMdArrowRoundBack size={35} fill='#00df9a'/></button>
      {console.log(product)}
@@ -36,8 +30,21 @@ const ProductDetails = () => {
       <h1 className='' style={product.countInStock===0?{color:'red'}:{color:'black'}}>Status :  {product.countInStock} items left</h1>
       <button className='p-3 bg-black text-[#00df9a] rounded-lg hover:bg-[#00df9a] hover:text-black font-semibold '>Add To Cart</button>
     </div>
-  </div>
+  </div> )}
+    </>
   )
 }
 
 export default ProductDetails
+
+
+
+{/*
+  
+ 
+  
+  
+  
+  
+  
+  */}

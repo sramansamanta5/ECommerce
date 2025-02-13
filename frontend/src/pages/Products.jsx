@@ -2,25 +2,21 @@ import React from 'react'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
 import Product from '../components/Product.jsx'
+import { useGetProductsQuery } from '../slices/productApiSlice.js'
 
 
 const Products = () => {
-  const [products,setProducts]=useState([])
 
-  useEffect(()=>{
-    const fetchProducts=async()=>{
-     const {data}= await axios.get('http://localhost:4000/api/products')
-     setProducts(data)
-    }
-    fetchProducts()
-  },[])
+ const{data:products,isLoading,isError}=useGetProductsQuery()
+
   return (
- <div className='grid grid-cols-3 gap-2 '>
+    <>
+    {isLoading? ( <h1>Loading....</h1>):isError?(<div>{isError.data?.message || isError.error}</div>):( <div className='grid grid-cols-3 gap-2 '>
         {products.map((product)=>{
             return <Product product={product} key={product._id} />
         })}
-    </div>
-    
+    </div>)}
+    </>
   )
 }
 
