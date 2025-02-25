@@ -6,28 +6,44 @@ import { ImCross } from "react-icons/im";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
    
     const[nav,setNav]=useState(false)
 
+   const {cartItems}=useSelector((state)=>state.cart)
+  
+    
+    
+
+
   return (
    <div className='text-white h-24 flex flex-row justify-between items-center px-4 bg-black'>
-        {/*<Link to='/'>*/}
+        <Link to='/'>
         <div className='flex  items-center'>
         <h1 className='text-3xl font-bold text-[#00df9a]'>E-Shop</h1> 
         <FaShopify size={35} fill='orange'/> 
         </div>
-        {/*</Link>*/}
+        </Link>
         <ul className='hidden md:flex'>
-            <li className='p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer'>
-                <div>Cart</div>
-                <FaShoppingCart size={30} fill='white'/>
-            </li>
-            <li className='p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer'>
-            <div>Sign in</div>
-                <FaUser size={30} fill='white'/>
-            </li>
+        <Link to='/cart'>
+            <li className="p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer relative">
+            <div className="mr-2">Cart</div>
+           
+            <FaShoppingCart size={30} fill="white" />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                {cartItems.length}
+              </span>
+            )}
+          </li></Link>
+          <Link to='/login'>
+          <li className="p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer">
+            <div className="mr-2">Sign in</div>
+            <FaUser size={30} fill="white" />
+          </li>
+          </Link>
         </ul>
         <div onClick={()=>setNav(!nav)} className='block fixed right-4 md:hidden'>
           {nav?<ImCross size={25} fill='red'/>:<VscThreeBars fill='orange' size={25}/>}
@@ -38,14 +54,19 @@ const Navbar = () => {
         <FaShopify size={35} fill='orange'/> 
         </div>
            <ul className='my-12'>
-              <li className='p-4  flex items-center border-b border-white '>
-              <div>Cart</div>
-                <FaShoppingCart size={30} fill='white'/>
-              </li>
-              <li className='p-4 flex items-center'>
-              <div>Sign in</div>
-                <FaUser size={30} fill='white'/>
-              </li>
+             <li className="p-4 flex items-center border-b border-white relative">
+              <div className="mr-2">Cart</div>
+               <FaShoppingCart size={30} fill="white" />
+               {cartItems.length > 0 && (
+               <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                {cartItems.length}
+              </span>
+                )}
+            </li>
+            <li className="p-4 flex items-center">
+             <div className="mr-2">Sign in</div>
+              <FaUser size={30} fill="white" />
+            </li>
           </ul>
     </div>
    </div>
@@ -53,3 +74,39 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+
+{/*
+    <li className='p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer'>
+                <div>Cart</div>
+                <FaShoppingCart size={30} fill='white'/>
+            </li>
+            <li className='p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer'>
+            <div>Sign in</div>
+                <FaUser size={30} fill='white'/>
+            </li>
+  
+  
+  
+  */}
+
+
+
+{/*
+  
+  <li className='p-4  flex items-center border-b border-white '>
+              <div>Cart</div>
+                <FaShoppingCart size={30} fill='white'/>
+                {cartItems.length > 0 && (
+                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                   {10}  
+                 </span>
+                 )}
+               </li>
+              <li className='p-4 flex items-center'>
+              <div>Sign in</div>
+                <FaUser size={30} fill='white'/>
+              </li>
+  
+  
+  */}
