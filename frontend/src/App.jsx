@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
+import Logout from './pages/Logout'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,6 +17,7 @@ function App() {
        <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/logout' element={<Logout/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/productdetails/:id' element={<ProductDetails/>}/>
         <Route path='/cart' element={<Cart/>}/>

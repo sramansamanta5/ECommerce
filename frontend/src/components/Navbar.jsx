@@ -13,9 +13,10 @@ const Navbar = () => {
     const[nav,setNav]=useState(false)
 
    const {cartItems}=useSelector((state)=>state.cart)
+   const {userInfo}=useSelector((state)=>state.auth)
   
     
-    
+   const [isOpen, setIsOpen] = useState(false); //For dropdown on hover
 
 
   return (
@@ -39,12 +40,36 @@ const Navbar = () => {
             )}
           </li></Link>
           <Link to='/login'>
-          <li className="p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer">
-            <div className="mr-2">Sign in</div>
+          {userInfo ? 
+           <li className="p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer relative text-left"  onMouseEnter={() => setIsOpen(true)}  onMouseLeave={() => setIsOpen(false)}>
+            <div className="mr-2">{userInfo?.user?.name}</div>
             <FaUser size={30} fill="white" />
-          </li>
+            {isOpen && (
+             <div className="absolute left-0 mt-8 w-48 bg-black border border-gray-500 rounded-lg shadow-lg transition-opacity duration-200 opacity-100">
+              <ul className="py-2">
+               <Link to='/logout'><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer hover:text-black">Log Out</li></Link>
+               <Link to='/profile'><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer hover:text-black">Profile</li></Link>
+              </ul>
+             </div>
+          )}
+          </li> : 
+          <li className="p-4 flex items-center hover:border-b-2 border-[#00df9a] cursor-pointer relative text-left" onMouseEnter={() => setIsOpen(true)}  onMouseLeave={() => setIsOpen(false)}>
+           <div className="mr-2">User</div>
+           <FaUser size={30} fill="white" />
+           {isOpen && (
+             <div className="absolute left-0 mt-8 w-48 bg-black border border-gray-500 rounded-lg shadow-lg transition-opacity duration-200 opacity-100">
+              <ul className="py-2">
+               <Link to='/login'><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer hover:text-black">Log In</li></Link>
+               <Link to='/register'><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer hover:text-black">Register</li></Link>
+               <Link to='/profile'><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer hover:text-black">Profile</li></Link>
+              </ul>
+             </div>
+          )}
+          </li>}
           </Link>
         </ul>
+        
+
         <div onClick={()=>setNav(!nav)} className='block fixed right-4 md:hidden'>
           {nav?<ImCross size={25} fill='red'/>:<VscThreeBars fill='orange' size={25}/>}
         </div>
