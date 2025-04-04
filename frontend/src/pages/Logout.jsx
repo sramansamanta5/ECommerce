@@ -18,7 +18,7 @@ const Logout = () => {
       dispatch(logout())
        navigate('/')
     } catch (error) {
-      
+      console.log(error)
     }
   }
   return (

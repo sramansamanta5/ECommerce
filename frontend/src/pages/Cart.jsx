@@ -19,7 +19,7 @@ const Cart = () => {
    }
   
    const checkOutHandler=()=>{
-     navigate('/login?redirect=/shipping');
+     navigate('/login?redirect=/shippingpage');
    }
    
   return (
@@ -40,7 +40,7 @@ const Cart = () => {
                 </div>}
           <div className='flex flex-col justify-center items-center'>
              <h1>Total -- {cartItems.length>0?cart.totalPrice:0}</h1>  
-            <button className='bg-orange-500 text-white p-3'>Proceed TO Checkout</button>
+            <button className='bg-orange-500 text-white p-3' onClick={checkOutHandler}>Proceed TO Checkout</button>
           </div>
         </div>
     </div>

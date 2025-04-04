@@ -8,6 +8,11 @@ import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import Logout from './pages/Logout'
 
+import PrivateRoute from './components/PrivateRoute'
+import ShippingPage from './pages/ShippingPage'
+import PaymentPage from './pages/PaymentPage'
+import PlaceOrder from './pages/PlaceOrder'
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -21,7 +26,14 @@ function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/productdetails/:id' element={<ProductDetails/>}/>
         <Route path='/cart' element={<Cart/>}/>
-        <Route/>
+        
+        <Route path='' element={<PrivateRoute/>}>
+           <Route path='/shippingpage' element={<ShippingPage/>}/> 
+           <Route path='/paymentpage' element={<PaymentPage/>}/> 
+           <Route path='/placeorder' element={<PlaceOrder/>}/> 
+        </Route>
+
+    
        </Routes>
      </BrowserRouter>
     </>

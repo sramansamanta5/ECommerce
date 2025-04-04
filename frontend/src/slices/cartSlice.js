@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-const initialState=localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : {cartItems : []}
+const initialState=localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : {cartItems : [],shippingAddress:{},paymentMethod:'PayPal'}
 
 
  //helper function for correcting deximal places.
@@ -53,12 +53,63 @@ const cartSlice=createSlice({
  
              //saving everything in local storage
              localStorage.setItem('cart',JSON.stringify(state))
+        },
+
+        saveShippingAddress :(state,action)=>{
+
+            state.shippingAddress =action.payload;
+
+               //caluculate items price.
+               state.itemsPrice=addDecimals(state.cartItems.reduce((acc,item)=>acc + item.price * item.quantity,0));
+
+               //calculate shipping price
+               state.shippingPrice=addDecimals(state.itemsPrice > 100 ? 0 : 10)
+   
+               //calculate total price
+               state.totalPrice=(Number(state.itemsPrice)+Number(state.shippingPrice)).toFixed(2)
+   
+               //saving everything in local storage
+               localStorage.setItem('cart',JSON.stringify(state))
+        },
+
+        savePaymentMethod :(state,action)=>{
+
+            state.paymentMethod =action.payload;
+
+               //caluculate items price.
+               state.itemsPrice=addDecimals(state.cartItems.reduce((acc,item)=>acc + item.price * item.quantity,0));
+
+               //calculate shipping price
+               state.shippingPrice=addDecimals(state.itemsPrice > 100 ? 0 : 10)
+   
+               //calculate total price
+               state.totalPrice=(Number(state.itemsPrice)+Number(state.shippingPrice)).toFixed(2)
+   
+               //saving everything in local storage
+               localStorage.setItem('cart',JSON.stringify(state))
+        },
+
+        clearCartItems :(state,action)=>{
+
+            state.cartItems=[];
+
+             //caluculate items price.
+             state.itemsPrice=addDecimals(state.cartItems.reduce((acc,item)=>acc + item.price * item.quantity,0));
+
+             //calculate shipping price
+             state.shippingPrice=addDecimals(state.itemsPrice > 100 ? 0 : 10)
+ 
+             //calculate total price
+             state.totalPrice=(Number(state.itemsPrice)+Number(state.shippingPrice)).toFixed(2)
+ 
+             //saving everything in local storage
+             localStorage.setItem('cart',JSON.stringify(state))
         }
         
     }
 
 })
 
-export const { addToCart,removeFromCart }=cartSlice.actions
+export const { addToCart,removeFromCart,saveShippingAddress,savePaymentMethod,clearCartItems }=cartSlice.actions
 
 export default cartSlice.reducer;

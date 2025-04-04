@@ -32,7 +32,7 @@ const authUser = async (req, res, next) => {
         res.cookie("refresh_token", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // Secure only in production
-            sameSite: "Strict",
+            sameSite: "Strict",  
             expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
         });
 
@@ -150,7 +150,7 @@ const logoutUser = (req, res) => {
 
 //get user profile
 ////route ---->/api/users/profile         (GET request)
-//private
+//private   
 
 
 const getUserProfile=async(req,res,next)=>{
